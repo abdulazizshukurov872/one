@@ -271,14 +271,358 @@ function createBookCardHTML(book) {
           <span><i class="fa-regular fa-calendar"></i> ${book.year}</span>
           <span><i class="fa-regular fa-file-lines"></i> ${book.pages} bet</span>
         </div>
-        <div class="book-footer">
-          <a href="book-detail.html?id=${book.id}" class="btn btn-outline btn-sm" style="width: 100%;">
-            Batafsil ko'rish <i class="fa-solid fa-arrow-right"></i>
+        <div class="book-footer" style="display: flex; gap: 8px; align-items: center;">
+          <button class="btn btn-primary btn-sm" style="flex: 1; padding: 6px 10px;" onclick="openBookReader(${book.id})" title="Onlayn mutolaa">
+            <i class="fa-solid fa-book-open"></i> O'qish
+          </button>
+          <button class="btn btn-outline btn-sm" onclick="openAudioPlayer(${book.id})" title="Audio kitobni tinglash" style="padding: 6px 12px; color: var(--primary); border-color: var(--primary);">
+            <i class="fa-solid fa-headphones"></i>
+          </button>
+          <a href="book-detail.html?id=${book.id}" class="btn btn-outline btn-sm" title="Batafsil ma'lumot" style="padding: 6px 10px;">
+            <i class="fa-solid fa-circle-info"></i>
           </a>
         </div>
       </div>
     </div>
   `;
+}
+
+// ==========================================
+// 8. Onlayn Mutolaa va Audio Tizimi (Reader & Audio Player)
+// ==========================================
+const BOOK_EXCERPTS = {
+  1: {
+    chapter: "1-bob: Murod hosil bo'lsa...",
+    text: `1264-nchi hijriy, dalv oyining 17-nchisi, qishki kunlarning biri, quyosh botgan, tevarakdan shom azoni eshitilmakda edi...\n\nToshkentning eng nufuzli saroylaridan birining qorong'i va sovuq xujrasida ikki yigit suhbatlashib o'tirardi. Ulardan biri — qaddi-qomati kelishgan, xushbichim, o'tkir nigohli Otabek edi. U o'zining savdo ishlari bilan Marg'ilonga kelgan, ammo taqdir uni bu yerda buyuk muhabbat va kutilmagan sarguzashtlar sari yetaklayotganidan bexabar edi.\n\nOtabek deraza yoniga kelib, shom qorong'usiga boqqancha chuqur o'yga toldi. Uning qalbida allaqanday noma'lum intilish, yorug'likka bo'lgan chanqoqlik bor edi. Marg'ilonning sovuq qishi uning ko'nglidagi iliq tuyg'ularni so'ndirolmasdi...`
+  },
+  2: {
+    chapter: "1-bob: Toza Kodning Ahamiyati",
+    text: `Dasturchi har kuni yuzlab qator kod yozadi, ammo minglab qator kodni o'qiydi. Biz kod yozishdan ko'ra o'qishga o'n barobar ko'proq vaqt sarflaymiz. Shuning uchun kodni oson o'qiladigan qilish — dasturlash tezligini oshirishning yagona yo'lidir.\n\nYomon kod butun loyihani sekinlashtiradi, xatolarni ko'paytiradi va dasturchilar jamoasini charchatadi. Yaxshi kod esa o'zini o'zi tushuntiradi, unda ortiqcha chalkash izohlar talab qilinmaydi. Har bir funksiya faqat bitta vazifani bajarsin va uni a'lo darajada bajarsin!\n\nBoy Scout qoidasiga amal qiling: "Lagerdan ketayotganingizda, uni o'zingiz kelganingizdan ko'ra tozaroq qilib qoldiring".`
+  },
+  3: {
+    chapter: "1-bob: Kichik Odatlarning Hayratlanarli Kuchi",
+    text: `Britaniya velosipedchilar jamoasi yuz yil davomida deyarli hech narsa yutmagan edi. Ammo yangi murabbiy Deyv Breylsford jamoaga kelgach, u "1 foizlik mayda yutuqlar to'planishi" falsafasini joriy qildi.\n\nUlar velosiped o'rindiqlarini qulayroq qildilar, shinalarga spirt surtib yopishqoqligini oshirdilar, hatto sportchilarning qaysi yostiqda yaxshiroq uxlashini tekshirdilar. Natijada nima bo'ldi? Besh yil ichida ular Pekin Olimpiadasida 60 foiz oltin medallarni qo'lga kiritdilar!\n\nOdatlar — bu o'z-o'zini takomillashtirishning murakkab foizlaridir. Har kuni bir foizga yaxshiroq bo'lsangiz, bir yilda o'ttiz yetti barobar kuchliroq bo'lasiz.`
+  },
+  4: {
+    chapter: "Hayrat ul-abror: Muqaddima",
+    text: `Bismillohir Rahmonir Rahim.\nAvval anga hamdki, zoti qadim,\nBorcha sifat birla kamoli karim.\n\nEy Navoiy, so'z mulkining sultonisan,\nTurkiy tildin dur sochar dostonisan.\nHar gading kim, ko'ngli ilmu hikmat istar,\nUshbu doston ichra boqiy nuri bor...\n\nNavoiy bashariyatga qarata so'zlaydi: inson bo'lmoq — boshqalarga yaxshilik qilmoq, ilm va ma'rifat bilan qorong'ulikni yoritmoqdir. Kimki insonlarga naf keltirmas ekan, uning hayoti zoe ketgan bo'lur.`
+  },
+  10: {
+    chapter: "1-bob: Onamning Oq Sochlari",
+    text: `Onamni eslasam, ko'z o'ngimga bahor tongi, tandirdan uzilgan issiq non hidi va mehr to'la ko'zlar keladi.\n\nBiz bolalar hovlida yugurib-o'ynab yurganda, onam tinim bilmas, doimo barchamizning g'amimizni yerdi. "Bolam, usting yupun, sovuq yema", "Bolam, charchadingmi, bir piyola issiq choy ich", derdi. O'sha paytlar biz bu so'zlarning qadriga yetarmidik?\n\nYillar o'tib, sochlarimizga oq oralaganda angladikki: onalar bizning hayotimizdagi eng buyuk va takrorlanmas farishtalar ekan. Ularning duosi bizni butun umr ofatlardan asrab yuradi...`
+  },
+  12: {
+    chapter: "1-bob: Sarovul Boboning Bog'ida",
+    text: `O'shanda men o'n ikki yashar sho'x bola edim. Dunyoda mendan topqir, mendan chaqqon bola yo'qday tuyulardi.\n\nToshkentning jazirama yozi. Sarovul boboning bog'ida mevalar g'arq pishgan. O'rtoqlarim bilan bog' devoridan oshib tushdik-da, shaftolizor orasiga sho'ng'idik. Ammo Sarovul bobo juda hushyor chol edi, hassasini ko'tarib quvlay boshladi.\n\nMen katta chinor orqasiga yashirinib, xuddi mushukday jimgina kutdim. Shu lahzadan boshlab mening qiziqarli, kulgili va kutilmagan sarguzashtlarim boshlandi...`
+  },
+  13: {
+    chapter: "1-bob: Andijon Taxti",
+    text: `O'n ikki yoshimda Andijon taxtiga o'tirdim. Otam Umarshayx Mirzo Axsida jarlikka qulab vafot etgach, butun Farg'ona mulkining taqdiri mening yosh yelkamga tushdi.\n\nAtrofda tog'alarim va amakilarim taxtni tortib olish uchun qo'shin tortib kelardi. Ammo mening qalbimda birgina buyuk o'y bor edi: Vatan tinchligi, ilm va adolat!\n\nTunlari Yulduzlar osmoniga boqib, g'azal bitardim:\nTole' yo'qi jonimg'a balolig' bo'ldi,\nHar ishniki ayladim, xatolig' bo'ldi.\nO'z yerin qo'yib, Hind sori yuzlandim,\nYo Rab, netayin, ne yuz qarolig' bo'ldi...`
+  },
+  17: {
+    chapter: "1-bob: Python Tiliga Kirish va Birinchi Dastur",
+    text: `Dasturlash olamiga xush kelibsiz! Ushbu kitob orqali siz zamonaviy dunyoning eng ommabop va talabgir dasturlash tili — Python'ni noldan boshlab mukammal o'rganasiz.\n\nPython nima uchun bunchalik mashhur? Chunki uning sintaksisi oddiy inson tiliga juda yaqin. Siz ortiqcha murakkab belgilarga emas, sof mantiqqa e'tibor qaratasiz.\n\nKeling, birinchi dasturimizni yozamiz:\nprint("Salom, Dunyo! SmartKutubxonaga xush kelibsiz!")\n\nUshbu qator ekranga xabar chiqaradi. Dasturchilik siri shundaki: har kuni oz-ozdan bo'lsa-da kod yozish va amaliyot qilish orqali siz buyuk dasturchiga aylanasiz!`
+  }
+};
+
+function getBookExcerptText(book) {
+  if (BOOK_EXCERPTS[book.id]) {
+    return BOOK_EXCERPTS[book.id];
+  }
+  return {
+    chapter: `1-bob: Kirish va Asosiy Mazmun`,
+    text: `${book.title} — ${book.author} tomonidan yaratilgan qimmatli asarlardan biridir. Ushbu asar o'quvchini chuqur mushohadaga chorlaydi va uning ma'naviy dunyosini boyitadi.\n\n${book.description}\n\nKitob sahifalarini varaqlagan sari kitobxon yangi qirralar, teran falsafiy xulosalar va hayotiy saboqlar bilan tanishadi. Ushbu kitob har bir bilimga intiluvchi insonning shaxsiy kutubxonasida bo'lishi lozim bo'lgan nodir javohirdir.`
+  };
+}
+
+// ----------------------------------------------------
+// Mutolaa Modali Boshqaruvi
+// ----------------------------------------------------
+let currentReaderFontSize = 18;
+
+function ensureReaderModalInDOM() {
+  if (document.getElementById('reader-modal-overlay')) return;
+
+  const modalHTML = `
+    <div id="reader-modal-overlay" class="reader-modal-overlay">
+      <div id="reader-container" class="reader-modal-container reader-theme-light">
+        <div class="reader-header">
+          <div class="reader-title-info">
+            <h3 id="reader-book-title">Kitob nomi</h3>
+            <span id="reader-book-author">Muallif</span>
+          </div>
+          <div class="reader-toolbar">
+            <button class="reader-tool-btn" onclick="changeReaderFontSize(-2)" title="Shriftni kichraytirish">A-</button>
+            <button class="reader-tool-btn" onclick="changeReaderFontSize(2)" title="Shriftni kattalashtirish">A+</button>
+            <button class="reader-tool-btn" onclick="setReaderTheme('light')" title="Oq fon">☀️</button>
+            <button class="reader-tool-btn" onclick="setReaderTheme('sepia')" title="Sepiya fon">📜</button>
+            <button class="reader-tool-btn" onclick="setReaderTheme('dark')" title="Tungi fon">🌙</button>
+            <button class="reader-tool-btn" id="reader-audio-btn" style="color: var(--primary);"><i class="fa-solid fa-headphones"></i> Tinglash</button>
+            <button class="reader-tool-btn" onclick="closeBookReader()" style="color: #ef4444;"><i class="fa-solid fa-xmark"></i> Yopish</button>
+          </div>
+        </div>
+        <div id="reader-content-body" class="reader-content-body">
+          <h2 id="reader-chapter-title" class="reader-chapter-title">Bob sarlavhasi</h2>
+          <div id="reader-paragraphs"></div>
+        </div>
+        <div class="reader-footer">
+          <span>SmartKutubxona elektron o'quvchi zali</span>
+          <span>Sahifa 1 / 1 (Elektron bob)</span>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+async function openBookReader(bookId) {
+  ensureReaderModalInDOM();
+  const data = await getSmartData();
+  const books = data.books || [];
+  const book = books.find(b => b.id === Number(bookId)) || books[0];
+
+  if (!book) return;
+
+  const excerpt = getBookExcerptText(book);
+
+  document.getElementById('reader-book-title').textContent = book.title;
+  document.getElementById('reader-book-author').textContent = `Muallif: ${book.author}`;
+  document.getElementById('reader-chapter-title').textContent = excerpt.chapter;
+
+  const pContainer = document.getElementById('reader-paragraphs');
+  pContainer.innerHTML = excerpt.text.split('\n\n').map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+
+  document.getElementById('reader-audio-btn').onclick = () => {
+    openAudioPlayer(book.id);
+  };
+
+  const overlay = document.getElementById('reader-modal-overlay');
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  showToast(`"${book.title}" onlayn mutolaaga ochildi!`);
+}
+
+function closeBookReader() {
+  const overlay = document.getElementById('reader-modal-overlay');
+  if (overlay) {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+function changeReaderFontSize(delta) {
+  currentReaderFontSize = Math.min(28, Math.max(14, currentReaderFontSize + delta));
+  const body = document.getElementById('reader-content-body');
+  if (body) {
+    body.style.fontSize = `${currentReaderFontSize}px`;
+  }
+}
+
+function setReaderTheme(theme) {
+  const container = document.getElementById('reader-container');
+  if (!container) return;
+  container.className = `reader-modal-container reader-theme-${theme}`;
+}
+
+// ----------------------------------------------------
+// Zamonaviy Audio Player Boshqaruvi
+// ----------------------------------------------------
+let audioCurrentBook = null;
+let audioIsPlaying = false;
+let audioSeconds = 0;
+let audioTotalDuration = 360; // 6 daqiqa default
+let audioTimer = null;
+let speechSynthUtterance = null;
+let audioPlaybackRate = 1.0;
+
+function ensureAudioPlayerInDOM() {
+  if (document.getElementById('audio-player-bar')) return;
+
+  const playerHTML = `
+    <div id="audio-player-bar" class="audio-player-bar">
+      <div class="audio-book-info">
+        <img id="audio-cover" src="" alt="Muqova" class="audio-cover-mini">
+        <div class="audio-meta">
+          <h4 id="audio-title">Kitob nomi</h4>
+          <p id="audio-author">Muallif</p>
+        </div>
+      </div>
+
+      <div class="audio-controls-center">
+        <div class="audio-buttons-row">
+          <button class="audio-btn-sec" onclick="seekAudio(-10)" title="10 soniya orqaga"><i class="fa-solid fa-rotate-left"></i></button>
+          <button id="audio-play-toggle" class="audio-btn-circle" onclick="togglePlayAudio()"><i class="fa-solid fa-play"></i></button>
+          <button class="audio-btn-sec" onclick="seekAudio(10)" title="10 soniya oldinga"><i class="fa-solid fa-rotate-right"></i></button>
+        </div>
+        <div class="audio-progress-wrap">
+          <span id="audio-cur-time" class="audio-time-label">00:00</span>
+          <div id="audio-progress-bar" class="audio-progress-bar" onclick="handleProgressClick(event)">
+            <div id="audio-progress-fill" class="audio-progress-fill"></div>
+          </div>
+          <span id="audio-total-time" class="audio-time-label">06:00</span>
+        </div>
+      </div>
+
+      <div class="audio-extra-controls">
+        <div id="audio-wave-anim" class="audio-waves">
+          <div class="audio-wave-bar"></div>
+          <div class="audio-wave-bar"></div>
+          <div class="audio-wave-bar"></div>
+          <div class="audio-wave-bar"></div>
+        </div>
+        <span id="audio-speed-btn" class="audio-speed-badge" onclick="changeAudioSpeed()" title="O'qish tezligi">1.0x</span>
+        <button class="audio-btn-sec" onclick="closeAudioPlayer()" title="Pleyerni yopish" style="color: #ef4444;"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', playerHTML);
+}
+
+function formatAudioTime(totalSec) {
+  const mins = Math.floor(totalSec / 60);
+  const secs = Math.floor(totalSec % 60);
+  return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+}
+
+async function openAudioPlayer(bookId) {
+  ensureAudioPlayerInDOM();
+  const data = await getSmartData();
+  const books = data.books || [];
+  const book = books.find(b => b.id === Number(bookId)) || books[0];
+
+  if (!book) return;
+
+  audioCurrentBook = book;
+  audioSeconds = 0;
+
+  document.getElementById('audio-cover').src = book.image;
+  document.getElementById('audio-title').textContent = book.title;
+  document.getElementById('audio-author').textContent = `${book.author} (Audio kitob)`;
+  document.getElementById('audio-cur-time').textContent = '00:00';
+  document.getElementById('audio-total-time').textContent = formatAudioTime(audioTotalDuration);
+  document.getElementById('audio-progress-fill').style.width = '0%';
+
+  const bar = document.getElementById('audio-player-bar');
+  bar.classList.add('active');
+
+  startAudioPlayback();
+  showToast(`"${book.title}" audio kitobi ishga tushirildi!`);
+}
+
+function startAudioPlayback() {
+  audioIsPlaying = true;
+  updatePlayButtonUI(true);
+
+  if (window.speechSynthesis && audioCurrentBook) {
+    window.speechSynthesis.cancel();
+    const excerpt = getBookExcerptText(audioCurrentBook);
+    const textToSpeak = `${audioCurrentBook.title}. Muallif: ${audioCurrentBook.author}. ${excerpt.chapter}. ${excerpt.text}`;
+    speechSynthUtterance = new SpeechSynthesisUtterance(textToSpeak);
+    speechSynthUtterance.rate = audioPlaybackRate;
+    speechSynthUtterance.pitch = 1.0;
+    // O'zbek yoki standart ovozni tanlash
+    const voices = window.speechSynthesis.getVoices();
+    const uzVoice = voices.find(v => v.lang.includes('uz')) || voices.find(v => v.lang.includes('ru')) || voices[0];
+    if (uzVoice) speechSynthUtterance.voice = uzVoice;
+
+    speechSynthUtterance.onend = () => {
+      audioIsPlaying = false;
+      updatePlayButtonUI(false);
+      clearInterval(audioTimer);
+    };
+
+    window.speechSynthesis.speak(speechSynthUtterance);
+  }
+
+  clearInterval(audioTimer);
+  audioTimer = setInterval(() => {
+    if (audioIsPlaying && audioSeconds < audioTotalDuration) {
+      audioSeconds += 1;
+      const pct = (audioSeconds / audioTotalDuration) * 100;
+      document.getElementById('audio-progress-fill').style.width = `${pct}%`;
+      document.getElementById('audio-cur-time').textContent = formatAudioTime(audioSeconds);
+    } else if (audioSeconds >= audioTotalDuration) {
+      pauseAudioPlayback();
+    }
+  }, 1000);
+}
+
+function pauseAudioPlayback() {
+  audioIsPlaying = false;
+  updatePlayButtonUI(false);
+  clearInterval(audioTimer);
+  if (window.speechSynthesis) {
+    window.speechSynthesis.pause();
+  }
+}
+
+function togglePlayAudio() {
+  if (audioIsPlaying) {
+    pauseAudioPlayback();
+    showToast("Audio to'xtatildi");
+  } else {
+    if (window.speechSynthesis && window.speechSynthesis.paused) {
+      window.speechSynthesis.resume();
+      audioIsPlaying = true;
+      updatePlayButtonUI(true);
+      startAudioPlayback();
+    } else {
+      startAudioPlayback();
+    }
+    showToast("Audio tinglanmoqda...");
+  }
+}
+
+function updatePlayButtonUI(playing) {
+  const btn = document.getElementById('audio-play-toggle');
+  const waves = document.getElementById('audio-wave-anim');
+  if (btn) {
+    btn.innerHTML = playing ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
+  }
+  if (waves) {
+    waves.classList.toggle('playing', playing);
+  }
+}
+
+function seekAudio(delta) {
+  audioSeconds = Math.min(audioTotalDuration, Math.max(0, audioSeconds + delta));
+  const pct = (audioSeconds / audioTotalDuration) * 100;
+  document.getElementById('audio-progress-fill').style.width = `${pct}%`;
+  document.getElementById('audio-cur-time').textContent = formatAudioTime(audioSeconds);
+}
+
+function handleProgressClick(e) {
+  const bar = document.getElementById('audio-progress-bar');
+  if (!bar) return;
+  const rect = bar.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+  const pct = Math.min(1, Math.max(0, clickX / rect.width));
+  audioSeconds = Math.floor(pct * audioTotalDuration);
+  document.getElementById('audio-progress-fill').style.width = `${pct * 100}%`;
+  document.getElementById('audio-cur-time').textContent = formatAudioTime(audioSeconds);
+}
+
+function changeAudioSpeed() {
+  const speeds = [1.0, 1.25, 1.5, 0.75];
+  const idx = speeds.indexOf(audioPlaybackRate);
+  audioPlaybackRate = speeds[(idx + 1) % speeds.length];
+  document.getElementById('audio-speed-btn').textContent = `${audioPlaybackRate}x`;
+  if (speechSynthUtterance && audioIsPlaying) {
+    window.speechSynthesis.cancel();
+    startAudioPlayback();
+  }
+  showToast(`Tezlik: ${audioPlaybackRate}x ga o'rnatildi`);
+}
+
+function closeAudioPlayer() {
+  pauseAudioPlayback();
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+  }
+  const bar = document.getElementById('audio-player-bar');
+  if (bar) {
+    bar.classList.remove('active');
+  }
 }
 
 // Sahifa yuklanganda ishga tushirish

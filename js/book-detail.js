@@ -45,8 +45,11 @@ function renderBookDetails(book) {
             <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
             <span id="detail-fav-text">${isFav ? "Sevimlilardan o'chirish" : "Sevimlilarga qo'shish"}</span>
           </button>
-          <button class="btn btn-outline" onclick="startReadingModal('${book.title}')">
-            <i class="fa-solid fa-book-reader"></i> Mutolaa qilish (Onlayn)
+          <button class="btn btn-primary" onclick="openBookReader(${book.id})">
+            <i class="fa-solid fa-book-open-reader"></i> Mutolaa qilish (Onlayn)
+          </button>
+          <button class="btn btn-outline" onclick="openAudioPlayer(${book.id})" style="border-color: var(--primary); color: var(--primary); font-weight: 700;">
+            <i class="fa-solid fa-headphones"></i> Audio kitobni tinglash
           </button>
         </div>
       </div>
