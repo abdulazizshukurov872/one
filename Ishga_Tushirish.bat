@@ -6,3 +6,4 @@ echo ===================================================
 echo Brauzerda ochilmoqda...
 start "" "index.html"
 exit
+
