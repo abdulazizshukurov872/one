@@ -591,6 +591,42 @@
       "featured": true,
       "isNew": true,
       "isbn": "978-9943-88-022-1"
+    },
+    {
+      "id": 25,
+      "title": "Mukammal Python: Django va Web Dasturlash",
+      "author": "Anvar Narzullaev",
+      "author_id": 11,
+      "category": "IT va Dasturlash",
+      "categoryId": "it",
+      "year": 2023,
+      "pages": 440,
+      "language": "O'zbekcha",
+      "rating": 5.0,
+      "reviews_count": 4200,
+      "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=500&auto=format&fit=crop&q=80",
+      "description": "Python va Django freymvorki yordamida zamonaviy, xavfsiz va tezkor veb-saytlar hamda API tizimlarini noldan yaratish bo'yicha to'liq o'zbekcha qo'llanma.",
+      "featured": true,
+      "isNew": true,
+      "isbn": "978-9943-75-025-5"
+    },
+    {
+      "id": 26,
+      "title": "Python Sun'iy Intellekt va Mashinali O'rganish",
+      "author": "Sardorbek Dushanboyev",
+      "author_id": 11,
+      "category": "IT va Dasturlash",
+      "categoryId": "it",
+      "year": 2024,
+      "pages": 360,
+      "language": "O'zbekcha",
+      "rating": 4.9,
+      "reviews_count": 2900,
+      "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&auto=format&fit=crop&q=80",
+      "description": "Neyron to'rlari, ChatGPT modellarining ishlash mexanizmi, Computer Vision va Data Science amaliyotlari o'zbek tilida qadamma-qadam tushuntirilgan.",
+      "featured": true,
+      "isNew": true,
+      "isbn": "978-9943-75-030-9"
     }
   ]
 }
