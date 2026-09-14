@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartKutubxona — Zamonaviy Onlayn Kutubxona</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ================= Header ================= -->
+  <header class="header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">
+            <i class="fa-solid fa-book-bookmark"></i>
+          </div>
+          <div>Smart<span>Kutubxona</span></div>
+        </a>
+
+        <ul class="nav-links" id="nav-links">
+          <li><a href="index.html" class="nav-link active">Bosh sahifa</a></li>
+          <li><a href="books.html" class="nav-link">Kitoblar</a></li>
+          <li><a href="categories.html" class="nav-link">Kategoriyalar</a></li>
+          <li><a href="authors.html" class="nav-link">Mualliflar</a></li>
+          <li><a href="about.html" class="nav-link">Biz haqimizda</a></li>
+          <li><a href="contact.html" class="nav-link">Bog'lanish</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <button id="theme-toggle-btn" class="icon-btn" title="Mavzuni o'zgartirish">
+            <i id="theme-icon" class="fa-solid fa-moon"></i>
+          </button>
+          <a href="favorites.html" class="icon-btn" title="Sevimlilar">
+            <i class="fa-solid fa-heart"></i>
+            <span class="badge-count favorites-count-badge" style="display: none;">0</span>
+          </a>
+          <button id="mobile-menu-toggle" class="mobile-toggle" aria-label="Menyuni ochish">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ================= Hero Bo'limi ================= -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <span class="hero-tag">
+            <i class="fa-solid fa-sparkles"></i> Zamonaviy Raqamli Kutubxona
+          </span>
+          <h1 class="hero-title">
+            Mutolaa orqali <span>yuksaklikka</span> erishing
+          </h1>
+          <p class="hero-desc">
+            Minglab sara badiiy asarlar, IT qo'llanmalari, jahon tarixi va biznes kitoblarini bir joyda toping. Istalgan qurilmadan oson mutolaa qiling!
+          </p>
+
+          <form action="books.html" method="GET" class="hero-search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" name="q" placeholder="Kitob nomi yoki muallifni qidiring..." required>
+            <button type="submit" class="btn btn-primary">Qidirish</button>
+          </form>
+
+          <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+            <a href="books.html" class="btn btn-primary btn-lg">
+              <i class="fa-solid fa-book-open"></i> Barcha kitoblar
+            </a>
+            <a href="categories.html" class="btn btn-outline btn-lg">
+              <i class="fa-solid fa-layer-group"></i> Kategoriyalar
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-image-wrapper">
+          <div class="hero-card-floating hero-card-1">
+            <i class="fa-solid fa-award" style="font-size: 1.8rem; color: var(--primary);"></i>
+            <div>
+              <div style="font-weight: 700; font-size: 0.95rem;">Yuqori Baholangan</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">Eng sara adabiyotlar</div>
+            </div>
+          </div>
+
+          <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=600&auto=format&fit=crop&q=80" alt="SmartKutubxona mutolaa" class="hero-main-img">
+
+          <div class="hero-card-floating hero-card-2">
+            <i class="fa-solid fa-bolt" style="font-size: 1.8rem; color: var(--accent);"></i>
+            <div>
+              <div style="font-weight: 700; font-size: 0.95rem;">Tezkor Qidiruv</div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">Soniyalar ichida toping</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Statistika Bo'limi ================= -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-book"></i></div>
+          <div>
+            <div class="stat-number">5,200+</div>
+            <div class="stat-label">Elektron kitoblar</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+          <div>
+            <div class="stat-number">12,400+</div>
+            <div class="stat-label">Faol kitobxonlar</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-feather-pointed"></i></div>
+          <div>
+            <div class="stat-number">450+</div>
+            <div class="stat-label">Mashhur mualliflar</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-star"></i></div>
+          <div>
+            <div class="stat-number">4.9 / 5.0</div>
+            <div class="stat-label">O'rtacha reyting</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Mashhur Kitoblar ================= -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="sub-title">Eng ko'p o'qilayotgan</span>
+          <h2 class="section-title">Mashhur Kitoblar</h2>
+          <p class="section-desc">Kitobxonlarimiz tomonidan eng yuqori baholangan sara asarlar bilan tanishing.</p>
+        </div>
+        <a href="books.html" class="btn btn-outline">
+          Barchasini ko'rish <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="books-grid" id="popular-books">
+        <!-- JS orqali dinamik to'ldiriladi -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Kategoriyalar Bo'limi ================= -->
+  <section class="section" style="background-color: var(--bg-surface); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="sub-title">Yo'nalishlar</span>
+          <h2 class="section-title">Asosiy Kategoriyalar</h2>
+          <p class="section-desc">O'zingiz qiziqqan sohaga oid adabiyotlarni toifalar bo'yicha tez toping.</p>
+        </div>
+        <a href="categories.html" class="btn btn-outline">
+          Barcha kategoriyalar <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="categories-grid" id="home-categories">
+        <!-- Dinamik render qilinadi -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Yangi Kitoblar ================= -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="sub-title">Katalog yangiliklari</span>
+          <h2 class="section-title">Yangi Qo'shilgan Kitoblar</h2>
+          <p class="section-desc">Kutubxonamiz fondiga yaqinda qo'shilgan eng so'nggi nashrlar.</p>
+        </div>
+        <a href="books.html" class="btn btn-outline">
+          Barchasini ko'rish <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="books-grid" id="new-books">
+        <!-- Dinamik to'ldiriladi -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Nega Aynan SmartKutubxona ================= -->
+  <section class="section" style="background-color: var(--primary-subtle);">
+    <div class="container">
+      <div style="text-align: center; max-width: 700px; margin: 0 auto 50px;">
+        <span class="sub-title" style="color: var(--primary); font-weight: 700; text-transform: uppercase;">Bizning afzalliklarimiz</span>
+        <h2 class="section-title" style="margin-top: 6px;">Nega SmartKutubxona?</h2>
+        <p class="section-desc" style="margin: 10px auto 0;">Biz foydalanuvchilarimiz uchun mutolaa jarayonini maksimal darajada qulay, qiziqarli va zamonaviy qildik.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px;">
+        <div style="background: var(--bg-surface); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); text-align: center;">
+          <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--primary-light); color: var(--primary-dark); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 20px;">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 12px;">Tez va Qulay</h3>
+          <p style="color: var(--text-secondary); font-size: 0.95rem;">Murakkab qidiruv va filtrlash orqali kerakli kitobni bir necha soniyada toping.</p>
+        </div>
+
+        <div style="background: var(--bg-surface); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); text-align: center;">
+          <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--primary-light); color: var(--primary-dark); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 20px;">
+            <i class="fa-solid fa-heart"></i>
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 12px;">Sevimlilar Ro'yxati</h3>
+          <p style="color: var(--text-secondary); font-size: 0.95rem;">O'zingizga ma'qul kelgan asarlarni bitta tugma orqali shaxsiy ro'yxatingizda saqlang.</p>
+        </div>
+
+        <div style="background: var(--bg-surface); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); text-align: center;">
+          <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--primary-light); color: var(--primary-dark); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 20px;">
+            <i class="fa-solid fa-moon"></i>
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 12px;">Tungi va Kunduzgi Rejim</h3>
+          <p style="color: var(--text-secondary); font-size: 0.95rem;">Ko'zingizni asrash uchun istalgan paytda tungi (Dark) yoki kunduzgi (Light) rejimga o'ting.</p>
+        </div>
+
+        <div style="background: var(--bg-surface); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--border-color); text-align: center;">
+          <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--primary-light); color: var(--primary-dark); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 20px;">
+            <i class="fa-solid fa-mobile-screen"></i>
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 12px;">Barcha Qurilmalarga Mos</h3>
+          <p style="color: var(--text-secondary); font-size: 0.95rem;">Smartfon, planshet yoki noutbukda birdek bekamu ko'st ishlaydi.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Footer ================= -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <div class="logo-icon"><i class="fa-solid fa-book-bookmark"></i></div>
+            <div>Smart<span>Kutubxona</span></div>
+          </a>
+          <p>
+            SmartKutubxona — zamonaviy o'quvchilar, talabalar va o'qituvchilar uchun mo'ljallangan qulay elektron kutubxona platformasi.
+          </p>
+          <div class="social-links">
+            <a href="#" class="social-btn" aria-label="Telegram"><i class="fa-brands fa-telegram"></i></a>
+            <a href="#" class="social-btn" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="social-btn" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#" class="social-btn" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Tezkor havolalar</h4>
+          <ul class="footer-nav">
+            <li><a href="index.html">Bosh sahifa</a></li>
+            <li><a href="books.html">Kitoblar katalogi</a></li>
+            <li><a href="categories.html">Kategoriyalar</a></li>
+            <li><a href="authors.html">Mualliflar</a></li>
+            <li><a href="favorites.html">Sevimlilar</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Kategoriyalar</h4>
+          <ul class="footer-nav">
+            <li><a href="books.html?category=badiiy">Badiiy adabiyot</a></li>
+            <li><a href="books.html?category=it">IT va Dasturlash</a></li>
+            <li><a href="books.html?category=tarix">Tarix</a></li>
+            <li><a href="books.html?category=ingliz">Ingliz tili</a></li>
+            <li><a href="books.html?category=biznes">Biznes va Moliya</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Bog'lanish</h4>
+          <ul class="footer-nav">
+            <li><i class="fa-solid fa-location-dot" style="color: var(--primary); margin-right: 6px;"></i> Toshkent sh., Chilonzor tumani</li>
+            <li><i class="fa-solid fa-phone" style="color: var(--primary); margin-right: 6px;"></i> +998 71 200-00-00</li>
+            <li><i class="fa-solid fa-envelope" style="color: var(--primary); margin-right: 6px;"></i> info@smartkutubxona.uz</li>
+            <li><i class="fa-solid fa-clock" style="color: var(--primary); margin-right: 6px;"></i> Dush-Shan: 09:00 - 20:00</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 SmartKutubxona. Barcha huquqlar himoyalangan.</div>
+        <div>Minimalistik, tezkor va zamonaviy kutubxona platformasi.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll-to-top tugmasi -->
+  <button id="scroll-to-top" class="scroll-top-btn" title="Yuqoriga qaytish">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const data = await getSmartData();
+      const books = data.books || [];
+      const categories = data.categories || [];
+
+      // Mashhur kitoblar
+      const popularContainer = document.getElementById('popular-books');
+      if (popularContainer) {
+        const topBooks = [...books].sort((a, b) => b.rating - a.rating).slice(0, 4);
+        popularContainer.innerHTML = topBooks.map(b => createBookCardHTML(b)).join('');
+      }
+
+      // Kategoriyalar
+      const catContainer = document.getElementById('home-categories');
+      if (catContainer) {
+        catContainer.innerHTML = categories.map(cat => `
+          <div class="category-card">
+            <div class="cat-header">
+              <div class="cat-icon-wrap" style="background: ${cat.color}20; color: ${cat.color};">
+                <i class="fa-solid ${cat.icon}"></i>
+              </div>
+              <span class="cat-count">${cat.count} ta kitob</span>
+            </div>
+            <h3 class="cat-name">${cat.name}</h3>
+            <p class="cat-desc">${cat.description}</p>
+            <a href="books.html?category=${cat.id}" class="cat-link">
+              Kitoblarni ko'rish <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        `).join('');
+      }
+
+      // Yangi kitoblar
+      const newContainer = document.getElementById('new-books');
+      if (newContainer) {
+        const newBooks = books.filter(b => b.isNew).slice(0, 4);
+        newContainer.innerHTML = (newBooks.length > 0 ? newBooks : books.slice(4, 8)).map(b => createBookCardHTML(b)).join('');
+      }
+    });
+  </script>
+</body>
+</html>
+
