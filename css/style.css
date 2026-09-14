@@ -1368,6 +1368,7 @@ h1, h2, h3, h4, h5, h6 {
     gap: 16px;
     display: none;
     box-shadow: var(--shadow-lg);
+    z-index: 999;
   }
   .nav-links.active {
     display: flex;

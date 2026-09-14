@@ -39,7 +39,7 @@ function renderBookDetails(book) {
   container.innerHTML = `
     <div class="detail-grid">
       <div class="detail-cover-box">
-        <img src="${book.image}" alt="${book.title}" class="detail-cover" onerror="this.src='https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&auto=format&fit=crop&q=80'">
+        <img src="${book.image}" alt="${book.title}" class="detail-cover" onerror="this.onerror=null; this.src=getBookCoverSVG('${(book.title || '').replace(/'/g, "\\'")}', '${book.category || ''}')">
         <div class="detail-actions">
           <button id="detail-fav-btn" class="btn ${isFav ? 'btn-danger-outline' : 'btn-primary'}" onclick="handleDetailFavToggle(${book.id})">
             <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-heart"></i>

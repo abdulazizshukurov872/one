@@ -193,10 +193,55 @@ function initMobileMenu() {
 }
 
 // ==========================================
-// 6. Kitob Kartochkasini Yaratish Funksiyasi
+// 6. Rasm Yuklanmaganda (Offline) Chiroyli SVG Fallback
+// ==========================================
+function getBookCoverSVG(title = 'Kitob', category = 'SmartKutubxona') {
+  const safeTitle = (title || 'Kitob').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const safeCat = (category || 'SmartKutubxona').replace(/"/g, '&quot;');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="500" height="700" viewBox="0 0 500 700">
+    <defs>
+      <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#064e3b" />
+        <stop offset="50%" stop-color="#059669" />
+        <stop offset="100%" stop-color="#0f172a" />
+      </linearGradient>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#bgGrad)" />
+    <rect x="24" y="24" width="452" height="652" rx="14" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" />
+    <circle cx="250" cy="220" r="54" fill="rgba(16,185,129,0.3)" />
+    <text x="250" y="235" font-family="sans-serif" font-size="42" font-weight="bold" fill="#ffffff" text-anchor="middle">📖</text>
+    <text x="250" y="340" font-family="sans-serif" font-size="26" font-weight="bold" fill="#ffffff" text-anchor="middle">${safeTitle.slice(0, 22)}</text>
+    <text x="250" y="380" font-family="sans-serif" font-size="20" fill="rgba(255,255,255,0.85)" text-anchor="middle">${safeTitle.slice(22, 46)}</text>
+    <text x="250" y="440" font-family="sans-serif" font-size="16" font-weight="600" fill="#34d399" text-anchor="middle">${safeCat}</text>
+    <rect x="175" y="580" width="150" height="34" rx="17" fill="rgba(255,255,255,0.15)" />
+    <text x="250" y="602" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">SmartKutubxona</text>
+  </svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+function getAuthorAvatarSVG(name = 'Muallif') {
+  const safeName = (name || 'Muallif').replace(/"/g, '&quot;');
+  const initials = safeName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'M';
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+    <defs>
+      <linearGradient id="authorGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#10b981" />
+        <stop offset="100%" stop-color="#047857" />
+      </linearGradient>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#authorGrad)" />
+    <text x="100" y="115" font-family="sans-serif" font-size="52" font-weight="bold" fill="#ffffff" text-anchor="middle">${initials}</text>
+  </svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+}
+
+// ==========================================
+// 7. Kitob Kartochkasini Yaratish Funksiyasi
 // ==========================================
 function createBookCardHTML(book) {
   const fav = isFavorite(book.id);
+  const cleanTitle = (book.title || '').replace(/'/g, "\\'");
+  const cleanCat = (book.category || '').replace(/'/g, "\\'");
   return `
     <div class="book-card" data-id="${book.id}">
       <div class="book-img-wrap">
@@ -205,7 +250,7 @@ function createBookCardHTML(book) {
           <i class="${fav ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
         </button>
         <a href="book-detail.html?id=${book.id}">
-          <img src="${book.image}" alt="${book.title}" class="book-cover" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&auto=format&fit=crop&q=80'">
+          <img src="${book.image}" alt="${book.title}" class="book-cover" loading="lazy" onerror="this.onerror=null; this.src=getBookCoverSVG('${cleanTitle}', '${cleanCat}')">
         </a>
       </div>
       <div class="book-content">

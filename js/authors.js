@@ -17,7 +17,7 @@ async function initAuthorsPage() {
 
   container.innerHTML = authors.map(author => `
     <div class="author-card">
-      <img src="${author.image}" alt="${author.fullname}" class="author-avatar" onerror="this.src='https://images.unsplash.com/photo-1544717305-2782549b5136?w=400&auto=format&fit=crop&q=80'">
+      <img src="${author.image}" alt="${author.fullname}" class="author-avatar" onerror="this.onerror=null; this.src=getAuthorAvatarSVG('${(author.fullname || '').replace(/'/g, "\\'")}')">
       <h3 class="author-name">${author.fullname}</h3>
       <span class="author-years"><i class="fa-regular fa-clock"></i> ${author.years}</span>
       <div style="font-size: 0.8rem; color: var(--primary); font-weight: 600; margin-bottom: 10px;">
