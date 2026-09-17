@@ -737,7 +737,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileMenu();
 });
 
-// Tabiat ovozlari
+/// Tabiat ovozlari
 function initNatureSounds() {
   const container = document.createElement('div');
   container.id = 'nature-sounds-widget';
@@ -756,22 +756,22 @@ function initNatureSounds() {
   const sounds = [
     { id: 'birds', icon: 'fa-crow', label: 'Qushlar', url: 'https://assets.mixkit.co/active_storage/sfx/2578/2578-preview.mp3' },
     { id: 'crickets', icon: 'fa-bug', label: 'Chigirtka', url: 'https://assets.mixkit.co/active_storage/sfx/2405/2405-preview.mp3' },
-    { id: 'rain', icon: 'fa-cloud-rain', label: 'Yomg\'ir', url: 'https://assets.mixkit.co/active_storage/sfx/1271/1271-preview.mp3' }
+    { id: 'rain', icon: 'fa-cloud-rain', label: 'Yomg\\'ir', url: 'https://assets.mixkit.co/active_storage/sfx/1271/1271-preview.mp3' }
   ];
 
   window.activeAudioObjects = window.activeAudioObjects || {};
 
-  container.innerHTML = \<div style="font-size:0.8rem;font-weight:bold;margin-right:5px;display:flex;align-items:center;"><i class="fa-solid fa-leaf" style="color:var(--primary);margin-right:4px;"></i> Fon:</div>\ + sounds.map(s => \
-    <button class="btn btn-outline" id="btn-sound-\" onclick="toggleNatureSound('\', '\')" style="padding: 5px 10px; border-radius: 20px; font-size:0.8rem;">
-      <i class="fa-solid \"></i> \
+  container.innerHTML = `<div style="font-size:0.8rem;font-weight:bold;margin-right:5px;display:flex;align-items:center;"><i class="fa-solid fa-leaf" style="color:var(--primary);margin-right:4px;"></i> Fon:</div>` + sounds.map(s => `
+    <button class="btn btn-outline" id="btn-sound-${s.id}" onclick="toggleNatureSound('${s.id}', '${s.url}')" style="padding: 5px 10px; border-radius: 20px; font-size:0.8rem;">
+      <i class="fa-solid ${s.icon}"></i> ${s.label}
     </button>
-  \).join('');
+  `).join('');
 
   document.body.appendChild(container);
 }
 
 window.toggleNatureSound = function(id, url) {
-  const btn = document.getElementById(\tn-sound-\\);
+  const btn = document.getElementById(`btn-sound-${id}`);
   
   if (window.activeAudioObjects[id]) {
     window.activeAudioObjects[id].pause();
