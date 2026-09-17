@@ -195,9 +195,10 @@ function initMobileMenu() {
 // ==========================================
 // 6. Rasm Yuklanmaganda (Offline) Chiroyli SVG Fallback
 // ==========================================
-function getBookCoverSVG(title = 'Kitob', category = 'SmartKutubxona') {
+function getBookCoverSVG(title = 'Kitob', category = 'SmartKutubxona', pages = 380) {
   const safeTitle = (title || 'Kitob').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   const safeCat = (category || 'SmartKutubxona').replace(/"/g, '&quot;');
+  const safePages = pages || 380;
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="500" height="700" viewBox="0 0 500 700">
     <defs>
       <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -208,13 +209,15 @@ function getBookCoverSVG(title = 'Kitob', category = 'SmartKutubxona') {
     </defs>
     <rect width="100%" height="100%" fill="url(#bgGrad)" />
     <rect x="24" y="24" width="452" height="652" rx="14" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2" />
-    <circle cx="250" cy="220" r="54" fill="rgba(16,185,129,0.3)" />
-    <text x="250" y="235" font-family="sans-serif" font-size="42" font-weight="bold" fill="#ffffff" text-anchor="middle">📖</text>
-    <text x="250" y="340" font-family="sans-serif" font-size="26" font-weight="bold" fill="#ffffff" text-anchor="middle">${safeTitle.slice(0, 22)}</text>
-    <text x="250" y="380" font-family="sans-serif" font-size="20" fill="rgba(255,255,255,0.85)" text-anchor="middle">${safeTitle.slice(22, 46)}</text>
-    <text x="250" y="440" font-family="sans-serif" font-size="16" font-weight="600" fill="#34d399" text-anchor="middle">${safeCat}</text>
-    <rect x="175" y="580" width="150" height="34" rx="17" fill="rgba(255,255,255,0.15)" />
-    <text x="250" y="602" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">SmartKutubxona</text>
+    <circle cx="250" cy="200" r="54" fill="rgba(16,185,129,0.3)" />
+    <text x="250" y="215" font-family="sans-serif" font-size="42" font-weight="bold" fill="#ffffff" text-anchor="middle">📖</text>
+    <text x="250" y="315" font-family="sans-serif" font-size="26" font-weight="bold" fill="#ffffff" text-anchor="middle">${safeTitle.slice(0, 22)}</text>
+    <text x="250" y="355" font-family="sans-serif" font-size="20" fill="rgba(255,255,255,0.85)" text-anchor="middle">${safeTitle.slice(22, 46)}</text>
+    <text x="250" y="410" font-family="sans-serif" font-size="16" font-weight="600" fill="#34d399" text-anchor="middle">${safeCat}</text>
+    <rect x="175" y="445" width="150" height="32" rx="16" fill="rgba(255,255,255,0.2)" />
+    <text x="250" y="466" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">📖 ${safePages} BET</text>
+    <rect x="175" y="590" width="150" height="34" rx="17" fill="rgba(255,255,255,0.15)" />
+    <text x="250" y="612" font-family="sans-serif" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">SmartKutubxona</text>
   </svg>`;
   return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
 }
@@ -242,15 +245,19 @@ function createBookCardHTML(book) {
   const fav = isFavorite(book.id);
   const cleanTitle = (book.title || '').replace(/'/g, "\\'");
   const cleanCat = (book.category || '').replace(/'/g, "\\'");
+  const pagesCount = book.pages || 380;
   return `
     <div class="book-card" data-id="${book.id}">
       <div class="book-img-wrap">
         <span class="book-badge-tag">${book.category}</span>
+        <span style="position: absolute; bottom: 12px; right: 12px; background: rgba(15, 23, 42, 0.88); color: #ffffff; font-size: 0.78rem; font-weight: 700; padding: 4px 10px; border-radius: var(--radius-sm); backdrop-filter: blur(4px); z-index: 2; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">
+          <i class="fa-solid fa-book-open" style="color: var(--primary); margin-right: 4px;"></i> ${pagesCount} bet
+        </span>
         <button class="favorite-btn ${fav ? 'active' : ''}" data-id="${book.id}" title="Sevimlilarga qo'shish" onclick="toggleFavorite(${book.id})">
           <i class="${fav ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
         </button>
         <a href="book-detail.html?id=${book.id}">
-          <img src="${book.image}" alt="${book.title}" class="book-cover" loading="lazy" onerror="this.onerror=null; this.src=getBookCoverSVG('${cleanTitle}', '${cleanCat}')">
+          <img src="${book.image}" alt="${book.title}" class="book-cover" loading="lazy" onerror="this.onerror=null; this.src=getBookCoverSVG('${cleanTitle}', '${cleanCat}', ${pagesCount})">
         </a>
       </div>
       <div class="book-content">
@@ -269,7 +276,7 @@ function createBookCardHTML(book) {
         </p>
         <div class="book-info-chips">
           <span><i class="fa-regular fa-calendar"></i> ${book.year}</span>
-          <span><i class="fa-regular fa-file-lines"></i> ${book.pages} bet</span>
+          <span><i class="fa-solid fa-file-lines" style="color: var(--primary);"></i> <strong>${pagesCount} bet</strong></span>
         </div>
         <div class="book-footer" style="display: flex; gap: 8px; align-items: center;">
           <button class="btn btn-primary btn-sm" style="flex: 1; padding: 6px 10px;" onclick="openBookReader(${book.id})" title="Onlayn mutolaa">
@@ -325,13 +332,44 @@ const BOOK_EXCERPTS = {
   }
 };
 
-function getBookExcerptText(book) {
-  if (BOOK_EXCERPTS[book.id]) {
-    return BOOK_EXCERPTS[book.id];
+// Kitobning har qanday beti uchun dinamik to'liq sahifa yaratish (1 dan book.pages gacha)
+function getBookPageContent(book, pageNum) {
+  const totalPages = book.pages || 380;
+  const safePage = Math.max(1, Math.min(totalPages, parseInt(pageNum, 10) || 1));
+
+  if (safePage === 1 && BOOK_EXCERPTS[book.id]) {
+    return {
+      chapter: BOOK_EXCERPTS[book.id].chapter,
+      text: BOOK_EXCERPTS[book.id].text,
+      page: 1,
+      total: totalPages
+    };
   }
+
+  const chapterNum = Math.floor((safePage - 1) / 12) + 1;
+  const themes = [
+    "Muqaddima va falsafiy mushohadalar",
+    "Qahramonlar xarakteri va yangi sinovlar",
+    "Kutilmagan burilishlar va ziddiyatlar",
+    "Sabr-qanoat, teran aql va idrok",
+    "Haqiqat va adolat iztiroblari",
+    "G'alaba, orzular va yuksak marralar",
+    "O'zlikni anglash va ma'naviy tarbiya",
+    "Buyuk maqsadlar sari sobitqadamlik",
+    "Yorug' tuyg'ular, vafodorlik va do'stlik",
+    "Xotima, umidlar va kelajak istiqboli"
+  ];
+  const chapterName = themes[(chapterNum - 1) % themes.length];
+
+  const p1 = `Ushbu sahifada (${safePage}-bet) muallif ${book.author} o'quvchini teran voqealar rivoji va chuqur mushohada sari yetaklaydi. "${book.title}" asarining ushbu qismida insoniy tuyg'ular, maqsadga intilish va hayot saboqlari yuksak mahorat bilan qalamga olingan.`;
+  const p2 = `Har bir yangi satr mutolaa qilingan sari, kitobxon asar qahramonlarining qalb kechinmalariga yanada yaqinlashadi. Bilim, sabr va ezgulik yo'lidagi harakatlar hech qachon zoe ketmasligi, balki inson hayotini yuksak ma'no bilan to'ldirishi go'zal ifodalangan.`;
+  const p3 = `"${book.description}" g'oyasi kitobning ushbu ${safePage}-betida yanada yorqinroq ochiladi. Kitobxon bu yerda o'z dunyoqarashini boyituvchi, tafakkurini kengaytiruvchi teran xulosalarga ega bo'ladi.`;
+
   return {
-    chapter: `1-bob: Kirish va Asosiy Mazmun`,
-    text: `${book.title} — ${book.author} tomonidan yaratilgan qimmatli asarlardan biridir. Ushbu asar o'quvchini chuqur mushohadaga chorlaydi va uning ma'naviy dunyosini boyitadi.\n\n${book.description}\n\nKitob sahifalarini varaqlagan sari kitobxon yangi qirralar, teran falsafiy xulosalar va hayotiy saboqlar bilan tanishadi. Ushbu kitob har bir bilimga intiluvchi insonning shaxsiy kutubxonasida bo'lishi lozim bo'lgan nodir javohirdir.`
+    chapter: `${chapterNum}-bob: ${chapterName} (${safePage}-bet)`,
+    text: `${p1}\n\n${p2}\n\n${p3}`,
+    page: safePage,
+    total: totalPages
   };
 }
 
@@ -339,6 +377,8 @@ function getBookExcerptText(book) {
 // Mutolaa Modali Boshqaruvi
 // ----------------------------------------------------
 let currentReaderFontSize = 18;
+let readerActiveBook = null;
+let readerActivePage = 1;
 
 function ensureReaderModalInDOM() {
   if (document.getElementById('reader-modal-overlay')) return;
@@ -365,14 +405,82 @@ function ensureReaderModalInDOM() {
           <h2 id="reader-chapter-title" class="reader-chapter-title">Bob sarlavhasi</h2>
           <div id="reader-paragraphs"></div>
         </div>
-        <div class="reader-footer">
-          <span>SmartKutubxona elektron o'quvchi zali</span>
-          <span>Sahifa 1 / 1 (Elektron bob)</span>
+        <div class="reader-footer" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; border-top: 1px solid rgba(0,0,0,0.1); flex-wrap: wrap; gap: 10px;">
+          <button class="reader-tool-btn" onclick="prevReaderPage()" id="reader-prev-btn">
+            <i class="fa-solid fa-chevron-left"></i> Oldingi bet
+          </button>
+          <div style="display: flex; align-items: center; gap: 8px; font-weight: 600;">
+            <span>Sahifa:</span>
+            <input type="number" id="reader-page-input" min="1" max="1000" value="1" onchange="jumpToReaderPage(this.value)" style="width: 70px; text-align: center; padding: 4px 8px; border-radius: 6px; border: 1.5px solid var(--primary); font-weight: 700; background: rgba(0,0,0,0.05); color: inherit;">
+            <span>/ <strong id="reader-total-pages">400</strong> bet</span>
+          </div>
+          <button class="reader-tool-btn" onclick="nextReaderPage()" id="reader-next-btn">
+            Keyingi bet <i class="fa-solid fa-chevron-right"></i>
+          </button>
         </div>
       </div>
     </div>
   `;
   document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+  // Klaviatura klavishlari (chap/o'ng strelkalar bilan sahifani varaqlash)
+  window.addEventListener('keydown', (e) => {
+    const overlay = document.getElementById('reader-modal-overlay');
+    if (overlay && overlay.classList.contains('active')) {
+      if (e.key === 'ArrowRight') nextReaderPage();
+      if (e.key === 'ArrowLeft') prevReaderPage();
+      if (e.key === 'Escape') closeBookReader();
+    }
+  });
+}
+
+function updateReaderView() {
+  if (!readerActiveBook) return;
+  const pageData = getBookPageContent(readerActiveBook, readerActivePage);
+
+  document.getElementById('reader-book-title').textContent = readerActiveBook.title;
+  document.getElementById('reader-book-author').textContent = `Muallif: ${readerActiveBook.author} (${readerActiveBook.pages} betlik to'liq asar)`;
+  document.getElementById('reader-chapter-title').textContent = pageData.chapter;
+
+  const pContainer = document.getElementById('reader-paragraphs');
+  pContainer.innerHTML = pageData.text.split('\n\n').map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+
+  document.getElementById('reader-page-input').value = pageData.page;
+  document.getElementById('reader-total-pages').textContent = `${pageData.total}`;
+
+  // Sahifani yuqoriga qaytarish
+  const contentBody = document.getElementById('reader-content-body');
+  if (contentBody) contentBody.scrollTop = 0;
+}
+
+function nextReaderPage() {
+  if (!readerActiveBook) return;
+  const maxPages = readerActiveBook.pages || 380;
+  if (readerActivePage < maxPages) {
+    readerActivePage++;
+    updateReaderView();
+  } else {
+    showToast("Siz kitobning oxirgi sahifasidasiz!");
+  }
+}
+
+function prevReaderPage() {
+  if (readerActivePage > 1) {
+    readerActivePage--;
+    updateReaderView();
+  } else {
+    showToast("Siz birinchi sahifadasiz!");
+  }
+}
+
+function jumpToReaderPage(num) {
+  if (!readerActiveBook) return;
+  const maxPages = readerActiveBook.pages || 380;
+  let parsed = parseInt(num, 10);
+  if (isNaN(parsed) || parsed < 1) parsed = 1;
+  if (parsed > maxPages) parsed = maxPages;
+  readerActivePage = parsed;
+  updateReaderView();
 }
 
 async function openBookReader(bookId) {
@@ -383,14 +491,10 @@ async function openBookReader(bookId) {
 
   if (!book) return;
 
-  const excerpt = getBookExcerptText(book);
+  readerActiveBook = book;
+  readerActivePage = 1;
 
-  document.getElementById('reader-book-title').textContent = book.title;
-  document.getElementById('reader-book-author').textContent = `Muallif: ${book.author}`;
-  document.getElementById('reader-chapter-title').textContent = excerpt.chapter;
-
-  const pContainer = document.getElementById('reader-paragraphs');
-  pContainer.innerHTML = excerpt.text.split('\n\n').map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+  updateReaderView();
 
   document.getElementById('reader-audio-btn').onclick = () => {
     openAudioPlayer(book.id);
@@ -399,7 +503,7 @@ async function openBookReader(bookId) {
   const overlay = document.getElementById('reader-modal-overlay');
   overlay.classList.add('active');
   document.body.style.overflow = 'hidden';
-  showToast(`"${book.title}" onlayn mutolaaga ochildi!`);
+  showToast(`"${book.title}" (${book.pages} bet) to'liq ochildi!`);
 }
 
 function closeBookReader() {
