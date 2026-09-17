@@ -51,3 +51,4 @@ with open(data_js_path, 'w', encoding='utf-8') as f:
     f.write(new_js)
 
 print(f"Added {len(new_titles)} books. Total books: {len(data['books'])}")
+
